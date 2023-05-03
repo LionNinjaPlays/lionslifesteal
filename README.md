@@ -1,4 +1,4 @@
-# lion's LifeSteal
+# lion's lifesteal
 A lifesteal skript for Minecraft.
 
 # Wiki
