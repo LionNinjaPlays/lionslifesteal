@@ -1,0 +1,82 @@
+on load:
+    set {name.server} to "[<light red>lion's <light blue>lifesteal<white>]"
+on death of player:
+    attacker is player:
+        add 1 to max health of attacker
+        subtract 1 from max health of victim
+        if victim's max health is less than 1:
+            strike lightning effect at location of victim
+            execute console command "say %{name.server}% <light red>%victim% <white>has been eliminated!"
+            execute console command "ban %victim% <red>Eliminated."
+            
+command /checkhearts [<player>]:
+    permission: op
+    aliases: ch
+    trigger:
+        send "%{name.server}% %arg-1% has %arg-1's max health% hearts."
+        
+command /withdraw [<number>]:
+    aliases: redeem
+    trigger:
+        set {heartredeem.%player%} to arg-1
+        if arg-1 is a number:
+            if player's max health is more than arg-1:
+                if player can hold arg-1 of nether star of Protection 5 named "&cHeart":
+                    subtract arg-1 from max health of player 
+                    give player arg-1 of nether star of Protection 5 named "&cHeart"
+                    if arg-1 is 1:
+                        send "%{name.server}% You have withdrawn %arg-1% heart."
+                    if arg-1 is not 1:
+                        send "%{name.server}% You have withdrawn %arg-1% hearts."
+                else:
+                    send "%{name.server}% Your inventory is too full." to player
+        if arg-1 is not set:
+            if player's max health is more than 1:
+                if player can hold 1 of nether star of Protection 5 named "Heart":
+                    subtract 1 from max health of player 
+                    give player 1 of nether star of Protection 5 named "&cHeart"
+                    send "%{name.server}% You have withdrawn 1 heart."
+                else:
+                    send "%{name.server}% Your inventory is too full." to player
+
+on rightclick with nether star:
+    if event-item is nether star of protection 5 named "&cHeart":
+        remove 1 of event-item from the player
+        add 1 to max health of player
+
+command /resethearts:
+    permission: op
+    trigger:
+        loop all players:
+            set loop-player's max health to 10
+
+command /givehearts [<number>]:
+    permission: op
+    trigger:
+        if arg-1 is a number:
+            give player arg-1 of nether star of Protection 5 named "&cHeart"
+            if arg-1 is 1:
+                send "%{name.server}% You have been given 1 heart."
+            if arg-1 is not 1:
+                send "%{name.server}% You have been given %arg-1% hearts."
+        if arg-1 is not set:
+            give player 1 of nether star of Protection 5 named "&cHeart"
+            send "%{name.server}% You have been given 1 heart."
+
+command /lifesteal [<text>]:
+    aliases: ls
+    trigger:
+        if arg-1 is not set:
+            message "&7-------------------------------------------"
+            message "&clion's &blifesteal"
+            message "&fA &cLife&4Steal &fskript made by &clion&f."
+            message "&fPlease sub to my &cYT&f! https://&cyoutube.com/@lionislost"
+            message "&fType &c/ls help&f for a list of commands"
+            message "&7-------------------------------------------"
+        if arg-1 is "help":
+            message "&7&m                                                                      "
+            message "&4Commands&7:"
+            message ""
+            message "&c/withdraw&7 - &fWithdraw a heart"
+            message "&c/redeem&7 - &fWithdraw a heart"
+            message "&7&m"
